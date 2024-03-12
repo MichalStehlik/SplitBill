@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:SplitBillVM.ViewModels"
+             x:Class="SplitBillVM.Pages.MainPage"
+             Title="Split Bill">
+    <ContentPage.BindingContext>
+        <vm:MainViewModel />
+    </ContentPage.BindingContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Frame Margin="10,10,10,10" MinimumHeightRequest="300" MinimumWidthRequest="600" MaximumHeightRequest="600" MaximumWidthRequest="1000" BackgroundColor="Black" Grid.Row="1" Grid.Column="1" Opacity="0.8">
+            <VerticalStackLayout>
+                <Frame Margin="10,10,10,10" VerticalOptions="Center" BackgroundColor="Black">
+                    <Grid Grid.Row="0" Grid.RowSpan="1" Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Text="Na osobu" Grid.Row="0" Grid.Column="0" TextColor="White" FontSize="12" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" />
+                        <Label Text="{Binding BillWithTipPerGuest}" Grid.Row="1" Grid.RowSpan="4" Grid.Column="0" TextColor="White" FontSize="70" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+                        <Label Text="Celkem včetně spropitného" Grid.Row="0" Grid.Column="1" TextColor="White" FontSize="12" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" />
+                        <Label Text="{Binding BillWithTip}" Grid.Row="1" Grid.Column="1" TextColor="White" FontSize="20" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" />
+                        <Label Text="Podíl na základní ceně" Grid.Row="2" Grid.Column="1" TextColor="White" FontSize="12" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" />
+                        <Label Text="{Binding BillPerGuest}" Grid.Row="3" Grid.Column="1" TextColor="White" FontSize="20" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" />
+                    </Grid>
+                </Frame>
+                <Label Text="Útrata" TextColor="White" Grid.Row="1" Grid.Column="0" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+                <Entry Placeholder="Počet korun které musíte zaplatit" TextColor="White" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Bill, Mode=TwoWay}" />
+                <Label Text="Spropitné" TextColor="White" Grid.Row="2" Grid.Column="0" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+                <Label Text="{Binding Value, Source={x:Reference Slider}}" TextColor="White" Grid.Row="2" Grid.Column="3" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+                <Slider x:Name="Slider" Minimum="0" Maximum="20" Value="{Binding Tip}" VerticalOptions="Center" />
+                <HorizontalStackLayout HorizontalOptions="Center">
+                    <Button Text="5" Margin="5" Command="{Binding SetTipValueCommand}" CommandParameter="{Binding Source={RelativeSource Self}, Path=Text}"/>
+                    <Button Text="10" Margin="5" Command="{Binding SetTipValueCommand}" CommandParameter="{Binding Source={RelativeSource Self}, Path=Text}"/>
+                    <Button Text="15" Margin="5" Command="{Binding SetTipValueCommand}" CommandParameter="{Binding Source={RelativeSource Self}, Path=Text}"/>
+                    <Button Text="20" Margin="5" Command="{Binding SetTipValueCommand}" CommandParameter="{Binding Source={RelativeSource Self}, Path=Text}"/>
+                </HorizontalStackLayout>
+                <Label Text="Počet osob" TextColor="White" Grid.Row="3" Grid.Column="0" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+                <HorizontalStackLayout Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" HorizontalOptions="Center" VerticalOptions="Center">
+                    <Button Text="-" Margin="20,0,20,0" Command="{Binding DecreaseGuestCommand}"/>
+                    <Label x:Name="Pocet" TextColor="White" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding Guests}"/>
+                    <Button Text="+" Margin="20,0,20,0" Command="{Binding IncreaseGuestCommand}"/>
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+        </Frame>
+    </Grid>
+</ContentPage>
